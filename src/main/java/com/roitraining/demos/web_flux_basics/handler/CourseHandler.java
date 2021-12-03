@@ -4,6 +4,7 @@ import com.roitraining.demos.web_flux_basics.entity.Course;
 import com.roitraining.demos.web_flux_basics.service.CourseService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
@@ -22,5 +23,25 @@ public class CourseHandler {
                 .ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(courseService.getCurrentCourses(), Course.class);
+    }
+
+    public Mono<ServerResponse> findByTopic(ServerRequest request) {
+
+        return ServerResponse.ok().build();
+    }
+
+    public Mono<ServerResponse> suggestCourse(ServerRequest request) {
+        //TODO add validator
+        Mono<Course> suggested = request.bodyToMono(Course.class);
+
+        return ServerResponse.accepted().contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromPublisher(
+                      suggested.flatMap(c->courseService.updateCatalog(c.getTitle(),c.getSummary())),
+                        Course.class
+                        ));
+    }
+
+    public Mono<ServerResponse> getRandomCourse(ServerRequest request) {
+        return ServerResponse.ok().build();
     }
 }

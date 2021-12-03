@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class DemoCourseServiceImpl implements CourseService {
     private List<Course> fauxData;
 
     public DemoCourseServiceImpl() {
-        this.fauxData = Arrays.asList(
+        this.fauxData = new ArrayList<>(Arrays.asList(
                 new Course("Introduction to Java"
                         ,"Java introduction for programmers"),
                 new Course("Introduction to Kotlin",
@@ -42,7 +43,7 @@ public class DemoCourseServiceImpl implements CourseService {
                         "Durable Functions can simplify complex, stateful coordination requirements in serverless applications"),
                 new Course("Secure Cognitive Services",
                         "Securing Cognitive services help prevent data loss and privacy violations for user data that may be a part of the solution")
-                );
+                ));
     }
 
     private Course getRandomCourse(){
