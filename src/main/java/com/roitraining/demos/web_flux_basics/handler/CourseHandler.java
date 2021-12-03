@@ -26,8 +26,11 @@ public class CourseHandler {
     }
 
     public Mono<ServerResponse> findByTopic(ServerRequest request) {
+        String searchTopic = request.pathVariable("topic");
 
-        return ServerResponse.ok().build();
+        return ServerResponse.accepted()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(courseService.findCourseByKeyword(searchTopic),Course.class);
     }
 
     public Mono<ServerResponse> suggestCourse(ServerRequest request) {
@@ -42,6 +45,6 @@ public class CourseHandler {
     }
 
     public Mono<ServerResponse> getRandomCourse(ServerRequest request) {
-        return ServerResponse.ok().build();
+        return ServerResponse.ok().body(courseService.getSampleCourse(),Course.class);
     }
 }

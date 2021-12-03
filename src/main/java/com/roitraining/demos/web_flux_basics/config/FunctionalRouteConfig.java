@@ -18,8 +18,8 @@ public class FunctionalRouteConfig {
         return RouterFunctions.route()
                 .path("fncourse",
                         p -> p.nest( accept(MediaType.APPLICATION_JSON),
-                                b -> b.GET("/{topic:[a-z]+}", handler::findByTopic)
-                                        .GET("random",handler::getRandomCourse)
+                                b -> b.GET("random",handler::getRandomCourse)
+                                        .GET("{topic:[a-z]+}", handler::findByTopic)
                                         .GET("",handler::getCurrentCourses)
                                         .POST("",contentType(MediaType.APPLICATION_JSON),handler::suggestCourse))
 

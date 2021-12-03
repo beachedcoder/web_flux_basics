@@ -52,14 +52,14 @@ public class DemoCourseServiceImpl implements CourseService {
         else return this.fauxData.get(--crsIndex);
     }
 
-    private Course generateFauxCourse(){
-        return new Course("Alternate source course for Demo",
-                "Building data with alternate publisher for resilience");
+    private Mono<Course> generateFauxCourse(){
+        return Mono.just(new Course("Alternate source course for Demo",
+                "Building data with alternate publisher for resilience"));
     }
 
     @Override
     public Mono getSampleCourse() {
-        return Mono.just(this.getRandomCourse());
+        return Mono.just(this.getRandomCourse()).switchIfEmpty(generateFauxCourse());
     }
 
     @Override
@@ -70,7 +70,7 @@ public class DemoCourseServiceImpl implements CourseService {
     @Override
     public Mono<Course> getCourseById(int courseNumber) {
         return Mono.justOrEmpty(this.getRandomCourse())
-                .switchIfEmpty(Mono.just(generateFauxCourse()));
+                .switchIfEmpty(generateFauxCourse());
     }
 
     @Override
