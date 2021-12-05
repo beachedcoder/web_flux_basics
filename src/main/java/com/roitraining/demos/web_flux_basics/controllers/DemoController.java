@@ -23,7 +23,7 @@ public class DemoController {
         this.courseService = courseService;
     }
 
-    @GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<ServerSentEvent<DemoEvent>> streamIt(){
         return Flux.interval(Duration.ofSeconds(1))
                 .map(s-> ServerSentEvent.<DemoEvent>builder()
